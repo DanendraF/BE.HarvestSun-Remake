@@ -76,6 +76,8 @@ model Farm {
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   name          String
   location      String?
+  latitude      Float?
+  longitude     Float?
   size          Float          // Hectares
   cropType      String?        @map("crop_type")
   status        String         @default("active") // 'active' | 'inactive' | 'harvesting'

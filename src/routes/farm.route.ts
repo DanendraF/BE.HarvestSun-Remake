@@ -46,6 +46,10 @@ const router = Router();
  *                 type: string
  *               location:
  *                 type: string
+ *               latitude:
+ *                 type: number
+ *               longitude:
+ *                 type: number
  *               size:
  *                 type: number
  *               cropType:
@@ -100,6 +104,10 @@ router.post('/', farmController.createNewFarm);
  *                 type: string
  *               location:
  *                 type: string
+ *               latitude:
+ *                 type: number
+ *               longitude:
+ *                 type: number
  *               size:
  *                 type: number
  *               cropType:
