@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  password  String
+  fullName  String   @map("full_name")
+  role      String // 'farmer' | 'officer' | 'dinas' | 'admin'
+  avatarUrl String?  @map("avatar_url")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  farmerProfile  FarmerProfile?
+  officerProfile OfficerProfile?
+  farms          Farm[]
+
+  @@map("users")
+}
+
+model FarmerProfile {
+  id               String  @id @default(uuid()) @db.Uuid
+  userId           String  @unique @map("user_id") @db.Uuid
+  user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone            String?
+  location         String?
+  performanceScore Float   @default(100.00) @map("performance_score")
+  status           String  @default("active") // 'active' | 'inactive'
+
+  assignments     OfficerFarmerAssignment[]
+  recommendations Recommendation[]
+
+  @@map("farmer_profiles")
+}
+
+model OfficerProfile {
+  id               String  @id @default(uuid()) @db.Uuid
+  userId           String  @unique @map("user_id") @db.Uuid
+  user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  region           String?
+  performanceScore Float   @default(100.00) @map("performance_score")
+  status           String  @default("active") // 'active' | 'inactive'
+
+  assignments     OfficerFarmerAssignment[]
+  recommendations Recommendation[]
+
+  @@map("officer_profiles")
+}
+
+model OfficerFarmerAssignment {
+  id         String         @id @default(uuid()) @db.Uuid
+  officerId  String         @map("officer_id") @db.Uuid
+  officer    OfficerProfile @relation(fields: [officerId], references: [id], onDelete: Cascade)
+  farmerId   String         @map("farmer_id") @db.Uuid
+  farmer     FarmerProfile  @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  assignedAt DateTime       @default(now()) @map("assigned_at") @db.Timestamptz
+
+  @@unique([officerId, farmerId])
+  @@map("officer_farmer_assignments")
+}
+
+model Farm {
+  id          String   @id @default(uuid()) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  location    String?
+  size        Float // Hectares
+  cropType    String?  @map("crop_type")
+  status      String   @default("active") // 'active' | 'inactive' | 'harvesting'
+  healthScore Int      @default(100) @map("health_score")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  crops         Crop[]
+  activities    Activity[]
+  diseaseAlerts DiseaseAlert[]
+
+  @@map("farms")
+}
+
+model Crop {
+  id              String    @id @default(uuid()) @db.Uuid
+  farmId          String    @map("farm_id") @db.Uuid
+  farm            Farm      @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  name            String
+  variety         String?
+  plantingDate    DateTime  @map("planting_date") @db.Date
+  expectedHarvest DateTime? @map("expected_harvest") @db.Date
+  growthStage     String    @default("Vegetatif") @map("growth_stage")
+  healthStatus    String    @default("healthy") @map("health_status") // 'healthy' | 'warning' | 'critical'
+  progress        Int       @default(0)
+
+  @@map("crops")
+}
+
+model Activity {
+  id          String   @id @default(uuid()) @db.Uuid
+  farmId      String   @map("farm_id") @db.Uuid
+  farm        Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  type        String // 'irrigation' | 'fertilizing' | 'harvesting' | 'pest_control' | 'monitoring'
+  description String?
+  date        DateTime @db.Date
+  status      String   @default("scheduled") // 'completed' | 'scheduled' | 'in_progress'
+  cost        Float    @default(0.00)
+
+  @@map("activities")
+}
+
+model DiseaseAlert {
+  id             String   @id @default(uuid()) @db.Uuid
+  farmId         String   @map("farm_id") @db.Uuid
+  farm           Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  diseaseName    String   @map("disease_name")
+  severity       String // 'low' | 'medium' | 'high' | 'critical'
+  detectedAt     DateTime @default(now()) @map("detected_at") @db.Timestamptz
+  imageUrl       String?  @map("image_url")
+  status         String   @default("active") // 'active' | 'resolved'
+  recommendation String?
+
+  @@map("disease_alerts")
+}
+
+model Recommendation {
+  id        String         @id @default(uuid()) @db.Uuid
+  officerId String         @map("officer_id") @db.Uuid
+  officer   OfficerProfile @relation(fields: [officerId], references: [id], onDelete: Cascade)
+  farmerId  String         @map("farmer_id") @db.Uuid
+  farmer    FarmerProfile  @relation(fields: [farmerId], references: [id], onDelete: Cascade)
+  message   String
+  sent      Boolean        @default(true)
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("recommendations")
+}
+
+model CropType {
+  id      String  @id @default(uuid()) @db.Uuid
+  name    String  @unique
+  variety String?
+  season  String?
+
+  @@map("crop_types")
+}
+
+model Disease {
+  id       String  @id @default(uuid()) @db.Uuid
+  name     String  @unique
+  symptoms String?
+  severity String // 'low' | 'medium' | 'high' | 'critical'
+
+  @@map("diseases")
+}
+
+model ActivityType {
+  id       String  @id @default(uuid()) @db.Uuid
+  name     String  @unique
+  category String?
+  icon     String?
+
+  @@map("activity_types")
+}
+
+model SystemLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  level     String // 'info' | 'warning' | 'error'
+  message   String
+  source    String?
+  timestamp DateTime @default(now()) @db.Timestamptz
+
+  @@map("system_logs")
+}
