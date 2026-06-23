@@ -29,6 +29,8 @@ export const createFarm = async (data: {
   name: string;
   location?: string;
   size: number;
+  latitude?: number;
+  longitude?: number;
   cropType?: string;
   status?: string;
   healthScore?: number;
@@ -44,6 +46,8 @@ export const updateFarm = async (
     name?: string;
     location?: string;
     size?: number;
+    latitude?: number;
+    longitude?: number;
     cropType?: string;
     status?: string;
     healthScore?: number;

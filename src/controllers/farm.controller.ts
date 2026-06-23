@@ -27,7 +27,7 @@ export const getFarmById = async (req: Request, res: Response, next: NextFunctio
 
 export const createNewFarm = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { userId, name, location, size, cropType, status, healthScore } = req.body;
+    const { userId, name, location, size, latitude, longitude, cropType, status, healthScore } = req.body;
     if (!userId || !name || size === undefined) {
       res.status(400).json({ error: 'userId, name, and size (hectares) are required' });
       return;
@@ -37,6 +37,8 @@ export const createNewFarm = async (req: Request, res: Response, next: NextFunct
       name,
       location,
       size: Number(size),
+      latitude: latitude !== undefined ? Number(latitude) : undefined,
+      longitude: longitude !== undefined ? Number(longitude) : undefined,
       cropType,
       status,
       healthScore: healthScore !== undefined ? Number(healthScore) : undefined,
@@ -50,11 +52,13 @@ export const createNewFarm = async (req: Request, res: Response, next: NextFunct
 export const updateExistingFarm = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const { name, location, size, cropType, status, healthScore } = req.body;
+    const { name, location, size, latitude, longitude, cropType, status, healthScore } = req.body;
     const farm = await farmService.updateFarm(id, {
       name,
       location,
       size: size !== undefined ? Number(size) : undefined,
+      latitude: latitude !== undefined ? Number(latitude) : undefined,
+      longitude: longitude !== undefined ? Number(longitude) : undefined,
       cropType,
       status,
       healthScore: healthScore !== undefined ? Number(healthScore) : undefined,
