@@ -161,6 +161,8 @@ exports.Prisma.FarmScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   location: 'location',
+  latitude: 'latitude',
+  longitude: 'longitude',
   size: 'size',
   cropType: 'cropType',
   status: 'status',

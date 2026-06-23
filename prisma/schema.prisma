@@ -148,10 +148,11 @@ model Recommendation {
 
 model CropType {
   id      String  @id @default(uuid()) @db.Uuid
-  name    String  @unique
+  name    String
   variety String?
   season  String?
 
+  @@unique([name, variety])
   @@map("crop_types")
 }
 
