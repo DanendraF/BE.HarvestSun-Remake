@@ -7,7 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'agrilink_super_secret_key_123!';
 
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { email, password, fullName, role, avatarUrl } = req.body;
+    const { email, password, fullName, role, avatarUrl, profileData } = req.body;
 
     if (!email || !password || !fullName || !role) {
       res.status(400).json({ error: 'Email, password, fullName, and role are required' });
@@ -47,10 +47,23 @@ export const register = async (req: Request, res: Response, next: NextFunction):
       });
 
       if (role === 'farmer') {
+        let phone = null;
+        let location = null;
+        if (profileData) {
+          phone = profileData.phone;
+          const regency = profileData.regency ? `${profileData.regency}, ` : '';
+          const district = profileData.district ? `${profileData.district}, ` : '';
+          const detail = profileData.location || '';
+          location = `${district}${regency}${detail}`.trim();
+          if (location.endsWith(',')) location = location.slice(0, -1);
+        }
+
         await tx.farmerProfile.create({
           data: {
             userId: createdUser.id,
             status: 'active',
+            phone,
+            location,
           },
         });
       } else if (role === 'officer') {
