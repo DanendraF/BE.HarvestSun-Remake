@@ -16,6 +16,7 @@ export const getActivityById = async (id: string) => {
 
 export const createActivity = async (data: {
   farmId: string;
+  userId: string;
   type: string;
   description?: string;
   date: Date | string;

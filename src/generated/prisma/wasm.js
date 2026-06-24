@@ -185,6 +185,7 @@ exports.Prisma.CropScalarFieldEnum = {
 exports.Prisma.ActivityScalarFieldEnum = {
   id: 'id',
   farmId: 'farmId',
+  userId: 'userId',
   type: 'type',
   description: 'description',
   date: 'date',

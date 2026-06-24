@@ -25,6 +25,7 @@ model User {
   farmerProfile  FarmerProfile?
   officerProfile OfficerProfile?
   farms          Farm[]
+  activities     Activity[]
 
   @@map("users")
 }
@@ -110,6 +111,8 @@ model Activity {
   id          String   @id @default(uuid()) @db.Uuid
   farmId      String   @map("farm_id") @db.Uuid
   farm        Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  userId      String   @map("user_id") @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   type        String   // 'irrigation' | 'fertilizing' | 'harvesting' | 'pest_control' | 'monitoring'
   description String?
   date        DateTime @db.Date
