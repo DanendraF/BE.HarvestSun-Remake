@@ -27,13 +27,14 @@ export const getActivityById = async (req: Request, res: Response, next: NextFun
 
 export const createNewActivity = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { farmId, type, description, date, status, cost } = req.body;
-    if (!farmId || !type || !date) {
-      res.status(400).json({ error: 'farmId, type, and date are required' });
+    const { farmId, userId, type, description, date, status, cost } = req.body;
+    if (!farmId || !userId || !type || !date) {
+      res.status(400).json({ error: 'farmId, userId, type, and date are required' });
       return;
     }
     const activity = await activityService.createActivity({
       farmId,
+      userId,
       type,
       description,
       date,

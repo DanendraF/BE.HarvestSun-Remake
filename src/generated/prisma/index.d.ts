@@ -1876,10 +1876,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     farms: number
+    activities: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     farms?: boolean | UserCountOutputTypeCountFarmsArgs
+    activities?: boolean | UserCountOutputTypeCountActivitiesArgs
   }
 
   // Custom InputTypes
@@ -1898,6 +1900,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFarmsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FarmWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountActivitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
   }
 
 
@@ -2217,6 +2226,7 @@ export namespace Prisma {
     farmerProfile?: boolean | User$farmerProfileArgs<ExtArgs>
     officerProfile?: boolean | User$officerProfileArgs<ExtArgs>
     farms?: boolean | User$farmsArgs<ExtArgs>
+    activities?: boolean | User$activitiesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2244,6 +2254,7 @@ export namespace Prisma {
     farmerProfile?: boolean | User$farmerProfileArgs<ExtArgs>
     officerProfile?: boolean | User$officerProfileArgs<ExtArgs>
     farms?: boolean | User$farmsArgs<ExtArgs>
+    activities?: boolean | User$activitiesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2254,6 +2265,7 @@ export namespace Prisma {
       farmerProfile: Prisma.$FarmerProfilePayload<ExtArgs> | null
       officerProfile: Prisma.$OfficerProfilePayload<ExtArgs> | null
       farms: Prisma.$FarmPayload<ExtArgs>[]
+      activities: Prisma.$ActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2630,6 +2642,7 @@ export namespace Prisma {
     farmerProfile<T extends User$farmerProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$farmerProfileArgs<ExtArgs>>): Prisma__FarmerProfileClient<$Result.GetResult<Prisma.$FarmerProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     officerProfile<T extends User$officerProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$officerProfileArgs<ExtArgs>>): Prisma__OfficerProfileClient<$Result.GetResult<Prisma.$OfficerProfilePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     farms<T extends User$farmsArgs<ExtArgs> = {}>(args?: Subset<T, User$farmsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FarmPayload<ExtArgs>, T, "findMany"> | Null>
+    activities<T extends User$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3027,6 +3040,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FarmScalarFieldEnum | FarmScalarFieldEnum[]
+  }
+
+  /**
+   * User.activities
+   */
+  export type User$activitiesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    cursor?: ActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
   }
 
   /**
@@ -8180,6 +8213,7 @@ export namespace Prisma {
   export type ActivityMinAggregateOutputType = {
     id: string | null
     farmId: string | null
+    userId: string | null
     type: string | null
     description: string | null
     date: Date | null
@@ -8190,6 +8224,7 @@ export namespace Prisma {
   export type ActivityMaxAggregateOutputType = {
     id: string | null
     farmId: string | null
+    userId: string | null
     type: string | null
     description: string | null
     date: Date | null
@@ -8200,6 +8235,7 @@ export namespace Prisma {
   export type ActivityCountAggregateOutputType = {
     id: number
     farmId: number
+    userId: number
     type: number
     description: number
     date: number
@@ -8220,6 +8256,7 @@ export namespace Prisma {
   export type ActivityMinAggregateInputType = {
     id?: true
     farmId?: true
+    userId?: true
     type?: true
     description?: true
     date?: true
@@ -8230,6 +8267,7 @@ export namespace Prisma {
   export type ActivityMaxAggregateInputType = {
     id?: true
     farmId?: true
+    userId?: true
     type?: true
     description?: true
     date?: true
@@ -8240,6 +8278,7 @@ export namespace Prisma {
   export type ActivityCountAggregateInputType = {
     id?: true
     farmId?: true
+    userId?: true
     type?: true
     description?: true
     date?: true
@@ -8337,6 +8376,7 @@ export namespace Prisma {
   export type ActivityGroupByOutputType = {
     id: string
     farmId: string
+    userId: string
     type: string
     description: string | null
     date: Date
@@ -8366,28 +8406,33 @@ export namespace Prisma {
   export type ActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     farmId?: boolean
+    userId?: boolean
     type?: boolean
     description?: boolean
     date?: boolean
     status?: boolean
     cost?: boolean
     farm?: boolean | FarmDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["activity"]>
 
   export type ActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     farmId?: boolean
+    userId?: boolean
     type?: boolean
     description?: boolean
     date?: boolean
     status?: boolean
     cost?: boolean
     farm?: boolean | FarmDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["activity"]>
 
   export type ActivitySelectScalar = {
     id?: boolean
     farmId?: boolean
+    userId?: boolean
     type?: boolean
     description?: boolean
     date?: boolean
@@ -8397,19 +8442,23 @@ export namespace Prisma {
 
   export type ActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     farm?: boolean | FarmDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     farm?: boolean | FarmDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Activity"
     objects: {
       farm: Prisma.$FarmPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       farmId: string
+      userId: string
       type: string
       description: string | null
       date: Date
@@ -8780,6 +8829,7 @@ export namespace Prisma {
   export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     farm<T extends FarmDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FarmDefaultArgs<ExtArgs>>): Prisma__FarmClient<$Result.GetResult<Prisma.$FarmPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8811,6 +8861,7 @@ export namespace Prisma {
   interface ActivityFieldRefs {
     readonly id: FieldRef<"Activity", 'String'>
     readonly farmId: FieldRef<"Activity", 'String'>
+    readonly userId: FieldRef<"Activity", 'String'>
     readonly type: FieldRef<"Activity", 'String'>
     readonly description: FieldRef<"Activity", 'String'>
     readonly date: FieldRef<"Activity", 'DateTime'>
@@ -14639,6 +14690,7 @@ export namespace Prisma {
   export const ActivityScalarFieldEnum: {
     id: 'id',
     farmId: 'farmId',
+    userId: 'userId',
     type: 'type',
     description: 'description',
     date: 'date',
@@ -14825,6 +14877,7 @@ export namespace Prisma {
     farmerProfile?: XOR<FarmerProfileNullableRelationFilter, FarmerProfileWhereInput> | null
     officerProfile?: XOR<OfficerProfileNullableRelationFilter, OfficerProfileWhereInput> | null
     farms?: FarmListRelationFilter
+    activities?: ActivityListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14838,6 +14891,7 @@ export namespace Prisma {
     farmerProfile?: FarmerProfileOrderByWithRelationInput
     officerProfile?: OfficerProfileOrderByWithRelationInput
     farms?: FarmOrderByRelationAggregateInput
+    activities?: ActivityOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14854,6 +14908,7 @@ export namespace Prisma {
     farmerProfile?: XOR<FarmerProfileNullableRelationFilter, FarmerProfileWhereInput> | null
     officerProfile?: XOR<OfficerProfileNullableRelationFilter, OfficerProfileWhereInput> | null
     farms?: FarmListRelationFilter
+    activities?: ActivityListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -15246,23 +15301,27 @@ export namespace Prisma {
     NOT?: ActivityWhereInput | ActivityWhereInput[]
     id?: UuidFilter<"Activity"> | string
     farmId?: UuidFilter<"Activity"> | string
+    userId?: UuidFilter<"Activity"> | string
     type?: StringFilter<"Activity"> | string
     description?: StringNullableFilter<"Activity"> | string | null
     date?: DateTimeFilter<"Activity"> | Date | string
     status?: StringFilter<"Activity"> | string
     cost?: FloatFilter<"Activity"> | number
     farm?: XOR<FarmRelationFilter, FarmWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }
 
   export type ActivityOrderByWithRelationInput = {
     id?: SortOrder
     farmId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
     description?: SortOrderInput | SortOrder
     date?: SortOrder
     status?: SortOrder
     cost?: SortOrder
     farm?: FarmOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type ActivityWhereUniqueInput = Prisma.AtLeast<{
@@ -15271,17 +15330,20 @@ export namespace Prisma {
     OR?: ActivityWhereInput[]
     NOT?: ActivityWhereInput | ActivityWhereInput[]
     farmId?: UuidFilter<"Activity"> | string
+    userId?: UuidFilter<"Activity"> | string
     type?: StringFilter<"Activity"> | string
     description?: StringNullableFilter<"Activity"> | string | null
     date?: DateTimeFilter<"Activity"> | Date | string
     status?: StringFilter<"Activity"> | string
     cost?: FloatFilter<"Activity"> | number
     farm?: XOR<FarmRelationFilter, FarmWhereInput>
+    user?: XOR<UserRelationFilter, UserWhereInput>
   }, "id">
 
   export type ActivityOrderByWithAggregationInput = {
     id?: SortOrder
     farmId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
     description?: SortOrderInput | SortOrder
     date?: SortOrder
@@ -15300,6 +15362,7 @@ export namespace Prisma {
     NOT?: ActivityScalarWhereWithAggregatesInput | ActivityScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Activity"> | string
     farmId?: UuidWithAggregatesFilter<"Activity"> | string
+    userId?: UuidWithAggregatesFilter<"Activity"> | string
     type?: StringWithAggregatesFilter<"Activity"> | string
     description?: StringNullableWithAggregatesFilter<"Activity"> | string | null
     date?: DateTimeWithAggregatesFilter<"Activity"> | Date | string
@@ -15645,6 +15708,7 @@ export namespace Prisma {
     farmerProfile?: FarmerProfileCreateNestedOneWithoutUserInput
     officerProfile?: OfficerProfileCreateNestedOneWithoutUserInput
     farms?: FarmCreateNestedManyWithoutUserInput
+    activities?: ActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15658,6 +15722,7 @@ export namespace Prisma {
     farmerProfile?: FarmerProfileUncheckedCreateNestedOneWithoutUserInput
     officerProfile?: OfficerProfileUncheckedCreateNestedOneWithoutUserInput
     farms?: FarmUncheckedCreateNestedManyWithoutUserInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -15671,6 +15736,7 @@ export namespace Prisma {
     farmerProfile?: FarmerProfileUpdateOneWithoutUserNestedInput
     officerProfile?: OfficerProfileUpdateOneWithoutUserNestedInput
     farms?: FarmUpdateManyWithoutUserNestedInput
+    activities?: ActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15684,6 +15750,7 @@ export namespace Prisma {
     farmerProfile?: FarmerProfileUncheckedUpdateOneWithoutUserNestedInput
     officerProfile?: OfficerProfileUncheckedUpdateOneWithoutUserNestedInput
     farms?: FarmUncheckedUpdateManyWithoutUserNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16096,11 +16163,13 @@ export namespace Prisma {
     status?: string
     cost?: number
     farm: FarmCreateNestedOneWithoutActivitiesInput
+    user: UserCreateNestedOneWithoutActivitiesInput
   }
 
   export type ActivityUncheckedCreateInput = {
     id?: string
     farmId: string
+    userId: string
     type: string
     description?: string | null
     date: Date | string
@@ -16116,11 +16185,13 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     cost?: FloatFieldUpdateOperationsInput | number
     farm?: FarmUpdateOneRequiredWithoutActivitiesNestedInput
+    user?: UserUpdateOneRequiredWithoutActivitiesNestedInput
   }
 
   export type ActivityUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     farmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16131,6 +16202,7 @@ export namespace Prisma {
   export type ActivityCreateManyInput = {
     id?: string
     farmId: string
+    userId: string
     type: string
     description?: string | null
     date: Date | string
@@ -16150,6 +16222,7 @@ export namespace Prisma {
   export type ActivityUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     farmId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16566,12 +16639,22 @@ export namespace Prisma {
     none?: FarmWhereInput
   }
 
+  export type ActivityListRelationFilter = {
+    every?: ActivityWhereInput
+    some?: ActivityWhereInput
+    none?: ActivityWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type FarmOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ActivityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16853,12 +16936,6 @@ export namespace Prisma {
     none?: CropWhereInput
   }
 
-  export type ActivityListRelationFilter = {
-    every?: ActivityWhereInput
-    some?: ActivityWhereInput
-    none?: ActivityWhereInput
-  }
-
   export type DiseaseAlertListRelationFilter = {
     every?: DiseaseAlertWhereInput
     some?: DiseaseAlertWhereInput
@@ -16866,10 +16943,6 @@ export namespace Prisma {
   }
 
   export type CropOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ActivityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17042,6 +17115,7 @@ export namespace Prisma {
   export type ActivityCountOrderByAggregateInput = {
     id?: SortOrder
     farmId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
     description?: SortOrder
     date?: SortOrder
@@ -17056,6 +17130,7 @@ export namespace Prisma {
   export type ActivityMaxOrderByAggregateInput = {
     id?: SortOrder
     farmId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
     description?: SortOrder
     date?: SortOrder
@@ -17066,6 +17141,7 @@ export namespace Prisma {
   export type ActivityMinOrderByAggregateInput = {
     id?: SortOrder
     farmId?: SortOrder
+    userId?: SortOrder
     type?: SortOrder
     description?: SortOrder
     date?: SortOrder
@@ -17261,6 +17337,13 @@ export namespace Prisma {
     connect?: FarmWhereUniqueInput | FarmWhereUniqueInput[]
   }
 
+  export type ActivityCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivityCreateWithoutUserInput, ActivityUncheckedCreateWithoutUserInput> | ActivityCreateWithoutUserInput[] | ActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutUserInput | ActivityCreateOrConnectWithoutUserInput[]
+    createMany?: ActivityCreateManyUserInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
   export type FarmerProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<FarmerProfileCreateWithoutUserInput, FarmerProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: FarmerProfileCreateOrConnectWithoutUserInput
@@ -17278,6 +17361,13 @@ export namespace Prisma {
     connectOrCreate?: FarmCreateOrConnectWithoutUserInput | FarmCreateOrConnectWithoutUserInput[]
     createMany?: FarmCreateManyUserInputEnvelope
     connect?: FarmWhereUniqueInput | FarmWhereUniqueInput[]
+  }
+
+  export type ActivityUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ActivityCreateWithoutUserInput, ActivityUncheckedCreateWithoutUserInput> | ActivityCreateWithoutUserInput[] | ActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutUserInput | ActivityCreateOrConnectWithoutUserInput[]
+    createMany?: ActivityCreateManyUserInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -17326,6 +17416,20 @@ export namespace Prisma {
     deleteMany?: FarmScalarWhereInput | FarmScalarWhereInput[]
   }
 
+  export type ActivityUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivityCreateWithoutUserInput, ActivityUncheckedCreateWithoutUserInput> | ActivityCreateWithoutUserInput[] | ActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutUserInput | ActivityCreateOrConnectWithoutUserInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutUserInput | ActivityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivityCreateManyUserInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutUserInput | ActivityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutUserInput | ActivityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
   export type FarmerProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<FarmerProfileCreateWithoutUserInput, FarmerProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: FarmerProfileCreateOrConnectWithoutUserInput
@@ -17358,6 +17462,20 @@ export namespace Prisma {
     update?: FarmUpdateWithWhereUniqueWithoutUserInput | FarmUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: FarmUpdateManyWithWhereWithoutUserInput | FarmUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: FarmScalarWhereInput | FarmScalarWhereInput[]
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ActivityCreateWithoutUserInput, ActivityUncheckedCreateWithoutUserInput> | ActivityCreateWithoutUserInput[] | ActivityUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutUserInput | ActivityCreateOrConnectWithoutUserInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutUserInput | ActivityUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ActivityCreateManyUserInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutUserInput | ActivityUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutUserInput | ActivityUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutFarmerProfileInput = {
@@ -17772,12 +17890,26 @@ export namespace Prisma {
     connect?: FarmWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutActivitiesInput = {
+    create?: XOR<UserCreateWithoutActivitiesInput, UserUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivitiesInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type FarmUpdateOneRequiredWithoutActivitiesNestedInput = {
     create?: XOR<FarmCreateWithoutActivitiesInput, FarmUncheckedCreateWithoutActivitiesInput>
     connectOrCreate?: FarmCreateOrConnectWithoutActivitiesInput
     upsert?: FarmUpsertWithoutActivitiesInput
     connect?: FarmWhereUniqueInput
     update?: XOR<XOR<FarmUpdateToOneWithWhereWithoutActivitiesInput, FarmUpdateWithoutActivitiesInput>, FarmUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutActivitiesNestedInput = {
+    create?: XOR<UserCreateWithoutActivitiesInput, UserUncheckedCreateWithoutActivitiesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivitiesInput
+    upsert?: UserUpsertWithoutActivitiesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivitiesInput, UserUpdateWithoutActivitiesInput>, UserUncheckedUpdateWithoutActivitiesInput>
   }
 
   export type FarmCreateNestedOneWithoutDiseaseAlertsInput = {
@@ -18158,6 +18290,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivityCreateWithoutUserInput = {
+    id?: string
+    type: string
+    description?: string | null
+    date: Date | string
+    status?: string
+    cost?: number
+    farm: FarmCreateNestedOneWithoutActivitiesInput
+  }
+
+  export type ActivityUncheckedCreateWithoutUserInput = {
+    id?: string
+    farmId: string
+    type: string
+    description?: string | null
+    date: Date | string
+    status?: string
+    cost?: number
+  }
+
+  export type ActivityCreateOrConnectWithoutUserInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutUserInput, ActivityUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivityCreateManyUserInputEnvelope = {
+    data: ActivityCreateManyUserInput | ActivityCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FarmerProfileUpsertWithoutUserInput = {
     update: XOR<FarmerProfileUpdateWithoutUserInput, FarmerProfileUncheckedUpdateWithoutUserInput>
     create: XOR<FarmerProfileCreateWithoutUserInput, FarmerProfileUncheckedCreateWithoutUserInput>
@@ -18251,6 +18413,36 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Farm"> | Date | string
   }
 
+  export type ActivityUpsertWithWhereUniqueWithoutUserInput = {
+    where: ActivityWhereUniqueInput
+    update: XOR<ActivityUpdateWithoutUserInput, ActivityUncheckedUpdateWithoutUserInput>
+    create: XOR<ActivityCreateWithoutUserInput, ActivityUncheckedCreateWithoutUserInput>
+  }
+
+  export type ActivityUpdateWithWhereUniqueWithoutUserInput = {
+    where: ActivityWhereUniqueInput
+    data: XOR<ActivityUpdateWithoutUserInput, ActivityUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ActivityUpdateManyWithWhereWithoutUserInput = {
+    where: ActivityScalarWhereInput
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ActivityScalarWhereInput = {
+    AND?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    OR?: ActivityScalarWhereInput[]
+    NOT?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    id?: UuidFilter<"Activity"> | string
+    farmId?: UuidFilter<"Activity"> | string
+    userId?: UuidFilter<"Activity"> | string
+    type?: StringFilter<"Activity"> | string
+    description?: StringNullableFilter<"Activity"> | string | null
+    date?: DateTimeFilter<"Activity"> | Date | string
+    status?: StringFilter<"Activity"> | string
+    cost?: FloatFilter<"Activity"> | number
+  }
+
   export type UserCreateWithoutFarmerProfileInput = {
     id?: string
     email: string
@@ -18261,6 +18453,7 @@ export namespace Prisma {
     createdAt?: Date | string
     officerProfile?: OfficerProfileCreateNestedOneWithoutUserInput
     farms?: FarmCreateNestedManyWithoutUserInput
+    activities?: ActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFarmerProfileInput = {
@@ -18273,6 +18466,7 @@ export namespace Prisma {
     createdAt?: Date | string
     officerProfile?: OfficerProfileUncheckedCreateNestedOneWithoutUserInput
     farms?: FarmUncheckedCreateNestedManyWithoutUserInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFarmerProfileInput = {
@@ -18349,6 +18543,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     officerProfile?: OfficerProfileUpdateOneWithoutUserNestedInput
     farms?: FarmUpdateManyWithoutUserNestedInput
+    activities?: ActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFarmerProfileInput = {
@@ -18361,6 +18556,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     officerProfile?: OfficerProfileUncheckedUpdateOneWithoutUserNestedInput
     farms?: FarmUncheckedUpdateManyWithoutUserNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OfficerFarmerAssignmentUpsertWithWhereUniqueWithoutFarmerInput = {
@@ -18427,6 +18623,7 @@ export namespace Prisma {
     createdAt?: Date | string
     farmerProfile?: FarmerProfileCreateNestedOneWithoutUserInput
     farms?: FarmCreateNestedManyWithoutUserInput
+    activities?: ActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOfficerProfileInput = {
@@ -18439,6 +18636,7 @@ export namespace Prisma {
     createdAt?: Date | string
     farmerProfile?: FarmerProfileUncheckedCreateNestedOneWithoutUserInput
     farms?: FarmUncheckedCreateNestedManyWithoutUserInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOfficerProfileInput = {
@@ -18515,6 +18713,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     farmerProfile?: FarmerProfileUpdateOneWithoutUserNestedInput
     farms?: FarmUpdateManyWithoutUserNestedInput
+    activities?: ActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOfficerProfileInput = {
@@ -18527,6 +18726,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     farmerProfile?: FarmerProfileUncheckedUpdateOneWithoutUserNestedInput
     farms?: FarmUncheckedUpdateManyWithoutUserNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OfficerFarmerAssignmentUpsertWithWhereUniqueWithoutOfficerInput = {
@@ -18679,6 +18879,7 @@ export namespace Prisma {
     createdAt?: Date | string
     farmerProfile?: FarmerProfileCreateNestedOneWithoutUserInput
     officerProfile?: OfficerProfileCreateNestedOneWithoutUserInput
+    activities?: ActivityCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFarmsInput = {
@@ -18691,6 +18892,7 @@ export namespace Prisma {
     createdAt?: Date | string
     farmerProfile?: FarmerProfileUncheckedCreateNestedOneWithoutUserInput
     officerProfile?: OfficerProfileUncheckedCreateNestedOneWithoutUserInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFarmsInput = {
@@ -18737,10 +18939,12 @@ export namespace Prisma {
     date: Date | string
     status?: string
     cost?: number
+    user: UserCreateNestedOneWithoutActivitiesInput
   }
 
   export type ActivityUncheckedCreateWithoutFarmInput = {
     id?: string
+    userId: string
     type: string
     description?: string | null
     date: Date | string
@@ -18809,6 +19013,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     farmerProfile?: FarmerProfileUpdateOneWithoutUserNestedInput
     officerProfile?: OfficerProfileUpdateOneWithoutUserNestedInput
+    activities?: ActivityUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFarmsInput = {
@@ -18821,6 +19026,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     farmerProfile?: FarmerProfileUncheckedUpdateOneWithoutUserNestedInput
     officerProfile?: OfficerProfileUncheckedUpdateOneWithoutUserNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CropUpsertWithWhereUniqueWithoutFarmInput = {
@@ -18868,19 +19074,6 @@ export namespace Prisma {
   export type ActivityUpdateManyWithWhereWithoutFarmInput = {
     where: ActivityScalarWhereInput
     data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutFarmInput>
-  }
-
-  export type ActivityScalarWhereInput = {
-    AND?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
-    OR?: ActivityScalarWhereInput[]
-    NOT?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
-    id?: UuidFilter<"Activity"> | string
-    farmId?: UuidFilter<"Activity"> | string
-    type?: StringFilter<"Activity"> | string
-    description?: StringNullableFilter<"Activity"> | string | null
-    date?: DateTimeFilter<"Activity"> | Date | string
-    status?: StringFilter<"Activity"> | string
-    cost?: FloatFilter<"Activity"> | number
   }
 
   export type DiseaseAlertUpsertWithWhereUniqueWithoutFarmInput = {
@@ -19030,6 +19223,37 @@ export namespace Prisma {
     create: XOR<FarmCreateWithoutActivitiesInput, FarmUncheckedCreateWithoutActivitiesInput>
   }
 
+  export type UserCreateWithoutActivitiesInput = {
+    id?: string
+    email: string
+    password: string
+    fullName: string
+    role: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    farmerProfile?: FarmerProfileCreateNestedOneWithoutUserInput
+    officerProfile?: OfficerProfileCreateNestedOneWithoutUserInput
+    farms?: FarmCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutActivitiesInput = {
+    id?: string
+    email: string
+    password: string
+    fullName: string
+    role: string
+    avatarUrl?: string | null
+    createdAt?: Date | string
+    farmerProfile?: FarmerProfileUncheckedCreateNestedOneWithoutUserInput
+    officerProfile?: OfficerProfileUncheckedCreateNestedOneWithoutUserInput
+    farms?: FarmUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutActivitiesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutActivitiesInput, UserUncheckedCreateWithoutActivitiesInput>
+  }
+
   export type FarmUpsertWithoutActivitiesInput = {
     update: XOR<FarmUpdateWithoutActivitiesInput, FarmUncheckedUpdateWithoutActivitiesInput>
     create: XOR<FarmCreateWithoutActivitiesInput, FarmUncheckedCreateWithoutActivitiesInput>
@@ -19071,6 +19295,43 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     crops?: CropUncheckedUpdateManyWithoutFarmNestedInput
     diseaseAlerts?: DiseaseAlertUncheckedUpdateManyWithoutFarmNestedInput
+  }
+
+  export type UserUpsertWithoutActivitiesInput = {
+    update: XOR<UserUpdateWithoutActivitiesInput, UserUncheckedUpdateWithoutActivitiesInput>
+    create: XOR<UserCreateWithoutActivitiesInput, UserUncheckedCreateWithoutActivitiesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutActivitiesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutActivitiesInput, UserUncheckedUpdateWithoutActivitiesInput>
+  }
+
+  export type UserUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmerProfile?: FarmerProfileUpdateOneWithoutUserNestedInput
+    officerProfile?: OfficerProfileUpdateOneWithoutUserNestedInput
+    farms?: FarmUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutActivitiesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    role?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    farmerProfile?: FarmerProfileUncheckedUpdateOneWithoutUserNestedInput
+    officerProfile?: OfficerProfileUncheckedUpdateOneWithoutUserNestedInput
+    farms?: FarmUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FarmCreateWithoutDiseaseAlertsInput = {
@@ -19274,6 +19535,16 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type ActivityCreateManyUserInput = {
+    id?: string
+    farmId: string
+    type: string
+    description?: string | null
+    date: Date | string
+    status?: string
+    cost?: number
+  }
+
   export type FarmUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -19317,6 +19588,36 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     healthScore?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActivityUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    cost?: FloatFieldUpdateOperationsInput | number
+    farm?: FarmUpdateOneRequiredWithoutActivitiesNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    farmId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    cost?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    farmId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    cost?: FloatFieldUpdateOperationsInput | number
   }
 
   export type OfficerFarmerAssignmentCreateManyFarmerInput = {
@@ -19444,6 +19745,7 @@ export namespace Prisma {
 
   export type ActivityCreateManyFarmInput = {
     id?: string
+    userId: string
     type: string
     description?: string | null
     date: Date | string
@@ -19501,10 +19803,12 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     cost?: FloatFieldUpdateOperationsInput | number
+    user?: UserUpdateOneRequiredWithoutActivitiesNestedInput
   }
 
   export type ActivityUncheckedUpdateWithoutFarmInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19514,6 +19818,7 @@ export namespace Prisma {
 
   export type ActivityUncheckedUpdateManyWithoutFarmInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     date?: DateTimeFieldUpdateOperationsInput | Date | string
