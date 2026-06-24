@@ -3,7 +3,8 @@ import * as farmerProfileService from '../services/farmer-profile.service';
 
 export const getFarmerProfiles = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const profiles = await farmerProfileService.getAllFarmerProfiles();
+    const { officerId } = req.query;
+    const profiles = await farmerProfileService.getAllFarmerProfiles(officerId as string);
     res.json(profiles);
   } catch (error) {
     next(error);

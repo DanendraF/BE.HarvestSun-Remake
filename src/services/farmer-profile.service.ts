@@ -1,15 +1,28 @@
 import prisma from '../config/prisma';
 
-export const getAllFarmerProfiles = async () => {
+export const getAllFarmerProfiles = async (officerId?: string) => {
   return await prisma.farmerProfile.findMany({
-    include: { user: true },
+    where: officerId ? {
+      assignments: {
+        some: { officerId }
+      }
+    } : undefined,
+    include: { 
+      user: {
+        include: { farms: true }
+      } 
+    },
   });
 };
 
 export const getFarmerProfileById = async (id: string) => {
   return await prisma.farmerProfile.findUnique({
     where: { id },
-    include: { user: true },
+    include: { 
+      user: {
+        include: { farms: true }
+      } 
+    },
   });
 };
 

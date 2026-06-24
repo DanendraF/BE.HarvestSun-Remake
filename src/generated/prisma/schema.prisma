@@ -9,8 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -25,6 +26,7 @@ model User {
   farmerProfile  FarmerProfile?
   officerProfile OfficerProfile?
   farms          Farm[]
+  activities     Activity[]
 
   @@map("users")
 }
@@ -76,6 +78,8 @@ model Farm {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String
   location    String?
+  latitude    Float?
+  longitude   Float?
   size        Float // Hectares
   cropType    String?  @map("crop_type")
   status      String   @default("active") // 'active' | 'inactive' | 'harvesting'
@@ -108,6 +112,8 @@ model Activity {
   id          String   @id @default(uuid()) @db.Uuid
   farmId      String   @map("farm_id") @db.Uuid
   farm        Farm     @relation(fields: [farmId], references: [id], onDelete: Cascade)
+  userId      String   @map("user_id") @db.Uuid
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   type        String // 'irrigation' | 'fertilizing' | 'harvesting' | 'pest_control' | 'monitoring'
   description String?
   date        DateTime @db.Date
@@ -146,10 +152,11 @@ model Recommendation {
 
 model CropType {
   id      String  @id @default(uuid()) @db.Uuid
-  name    String  @unique
+  name    String
   variety String?
   season  String?
 
+  @@unique([name, variety])
   @@map("crop_types")
 }
 
